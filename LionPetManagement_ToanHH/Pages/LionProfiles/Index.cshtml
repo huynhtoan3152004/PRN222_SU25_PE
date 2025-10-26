@@ -7,65 +7,97 @@
 
 <style>
     :root {
-        --purple-500: #7b2cbf;
-        --purple-600: #6f2bb0;
-        --purple-400: #9b6edb;
+        --primary-500: #2563eb;
+        --primary-600: #1d4ed8;
+        --primary-400: #3b82f6;
+        --secondary-500: #64748b;
+        --secondary-600: #475569;
+        --secondary-400: #94a3b8;
+        --success-500: #10b981;
+        --success-600: #059669;
+        --warning-500: #f59e0b;
+        --warning-600: #d97706;
+        --danger-500: #ef4444;
+        --danger-600: #dc2626;
         --muted: #6c757d;
+        --light-bg: #f8fafc;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .lp-header {
-        background: linear-gradient(90deg, var(--purple-600), var(--purple-400));
+        background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
         color: #fff;
-        padding: 1.25rem 1rem;
-        border-radius: .5rem;
-        margin-bottom: 1rem;
+        padding: 1.5rem 1.25rem;
+        border-radius: 1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--card-shadow);
     }
 
     .lp-card {
-        border: 1px solid rgba(123,44,191,.12);
-        border-radius: .6rem;
-        box-shadow: 0 6px 18px rgba(123,44,191,.06);
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        background: #fff;
     }
 
     .lp-btn {
-        background: var(--purple-500);
-        border: 1px solid var(--purple-600);
+        background: var(--primary-500);
+        border: 1px solid var(--primary-600);
         color: #fff;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
     }
 
     .lp-btn-outline {
         background: transparent;
-        color: var(--purple-600);
-        border: 1px solid var(--purple-600);
+        color: var(--primary-600);
+        border: 1px solid var(--primary-600);
+        border-radius: 0.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
     }
 
     .lp-btn:hover {
-        filter: brightness(.95);
-        color: #fff;
+        background: var(--primary-600);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
     .lp-btn-outline:hover {
-        background: var(--purple-600);
+        background: var(--primary-600);
         color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
     .search-input:focus {
-        border-color: var(--purple-500);
-        box-shadow: 0 0 0 .15rem rgba(123,44,191,.15);
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
     }
 
     .table thead th {
-        background: linear-gradient(90deg,var(--purple-600),var(--purple-400));
+        background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
         color: #fff;
         border: none;
+        font-weight: 600;
+        padding: 1rem 0.75rem;
     }
 
     .table tbody tr td {
         vertical-align: middle;
+        padding: 0.875rem 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .table tbody tr:hover {
-        background-color: rgba(123,44,191,.05);
+        background-color: var(--light-bg);
+        transform: scale(1.01);
+        transition: all 0.2s ease;
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
     }
 
     .small-muted {
@@ -83,26 +115,28 @@
     }
 
     .custom-pagination .page-link {
-        border: 1px solid var(--purple-500);
-        color: var(--purple-600);
-        padding: .5rem .75rem;
-        border-radius: .25rem;
+        border: 1px solid var(--primary-500);
+        color: var(--primary-600);
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
         text-decoration: none;
-        transition: all .3s ease;
+        transition: all 0.3s ease;
         font-weight: 500;
+        margin: 0 0.125rem;
     }
 
     .custom-pagination .page-link:hover {
-        background: var(--purple-500);
+        background: var(--primary-500);
         color: #fff;
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(123,44,191,.2);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
     .custom-pagination .page-link.active {
-        background: var(--purple-500);
+        background: var(--primary-500);
         color: #fff;
-        border-color: var(--purple-600);
+        border-color: var(--primary-600);
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
     }
 
     .custom-pagination .page-link.disabled {
@@ -146,16 +180,19 @@
     }
 </style>
 
-<div class="container py-3">
-    <div class="lp-header d-flex justify-content-between align-items-center">
-        <div>
-            <h3 class="mb-0">🦁 Lion Profiles</h3>
-            <div class="small-muted">Quản lý hồ sơ sư tử — tìm, xem và chỉnh sửa nhanh</div>
+<div class="container-fluid py-4" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh;">
+    <div class="container">
+        <div class="lp-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1">🦁 Lion Profiles Management</h2>
+                <div class="text-white-50">Comprehensive lion profile management system with real-time updates</div>
+            </div>
+            <div>
+                <a asp-page="Create" class="btn lp-btn btn-lg px-4">
+                    <i class="fas fa-plus-circle mr-2"></i>✨ Create New Profile
+                </a>
+            </div>
         </div>
-        <div>
-            <a asp-page="Create" class="btn lp-btn">✨ Create New</a>
-        </div>
-    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -181,11 +218,15 @@
         <div class="card-body">
             <form method="get" class="d-flex align-items-center search-row" role="search">
                 <div class="form-group mr-2 flex-fill">
+                    <label class="small-muted mb-1">🦁 Lion Name</label>
+                    <input name="LionName" type="text" class="form-control search-input" placeholder="Enter lion name" value="@Model.LionName" />
+                </div>
+                <div class="form-group mr-2 flex-fill">
                     <label class="small-muted mb-1">⚖️ Weight (kg)</label>
                     <input name="Weight" type="number" step="0.01" class="form-control search-input" placeholder="Enter weight" value="@Model.Weight" />
                 </div>
                 <div class="form-group mr-2 flex-fill">
-                    <label class="small-muted mb-1">🦁 Lion Type</label>
+                    <label class="small-muted mb-1">🏷️ Lion Type</label>
                     <input name="LionTypeName" type="text" class="form-control search-input" placeholder="Enter lion type" value="@Model.LionTypeName" />
                 </div>
                 <div class="d-flex align-items-end">
@@ -193,6 +234,7 @@
                     <a asp-page="./Index" class="btn lp-btn-outline">🔄 Reset</a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 
@@ -223,12 +265,12 @@
                                     <td>@(item.Warning?.Length > 30 ? item.Warning.Substring(0, 30) + "..." : item.Warning)</td>
                                     <td>@(item.ModifiedDate.ToString("dd/MM/yyyy HH:mm"))</td>
                                     <td>
-                                        <span class="badge badge-info">@item.LionType?.LionTypeName</span>
+                                        <span class="badge badge-primary px-3 py-2" style="background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); border: none; font-weight: 500;">@item.LionType?.LionTypeName</span>
                                     </td>
                                     <td class="text-nowrap">
-                                        <a asp-page="./Update" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn" title="Edit">✏️</a>
-                                        <a asp-page="./Detail" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn-outline ml-1" title="Details">👁️</a>
-                                        <a asp-page="./Delete" asp-route-id="@item.LionProfileId" class="btn btn-sm btn-danger ml-1" title="Delete">🗑️</a>
+                                        <a asp-page="./Update" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn" title="Edit" style="min-width: 35px;">✏️</a>
+                                        <a asp-page="./Detail" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn-outline ml-1" title="Details" style="min-width: 35px;">👁️</a>
+                                        <a asp-page="./Delete" asp-route-id="@item.LionProfileId" class="btn btn-sm btn-danger ml-1" title="Delete" style="min-width: 35px; background: var(--danger-500); border-color: var(--danger-600);">🗑️</a>
                                     </td>
                                 </tr>
                             }

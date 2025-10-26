@@ -11,7 +11,7 @@ namespace LionPetManagement_ToanHH_Service
     {
         Task<List<LionProfile>> GetAllAsync();
         Task<LionProfile?> GetByIdAsync(int id);
-        Task<(List<LionProfile> items, int totalPages)> SearchAsyncWithPagination(double? weight, string lionTypeName, int page = 1, int pageSize = 10);
+        Task<(List<LionProfile> items, int totalPages)> SearchAsyncWithPagination(double? weight, string lionTypeName, string lionName, int page = 1, int pageSize = 10);
         Task<int> CreateAsync(LionProfile entity);
         Task<int> UpdateAsync(LionProfile entity);
         Task<bool> RemoveAsync(LionProfile entity);

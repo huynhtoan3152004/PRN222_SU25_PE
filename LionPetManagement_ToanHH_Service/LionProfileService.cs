@@ -26,9 +26,9 @@ namespace LionPetManagement_ToanHH_Service
             return _lionProfileRepo.GetByIdAsync(id);
         }
 
-        public Task<(List<LionProfile> items, int totalPages)> SearchAsyncWithPagination(double? weight, string lionTypeName, int page = 1, int pageSize = 10)
+        public Task<(List<LionProfile> items, int totalPages)> SearchAsyncWithPagination(double? weight, string lionTypeName, string lionName, int page = 1, int pageSize = 10)
         {
-            return _lionProfileRepo.SearchAsyncWithPagination(weight, lionTypeName, page, pageSize);
+            return _lionProfileRepo.SearchAsyncWithPagination(weight, lionTypeName, lionName, page, pageSize);
         }
 
         public Task<int> CreateAsync(LionProfile entity)

@@ -21,7 +21,7 @@ namespace LionPetManagement_ToanHH_Repository.Repositories
                .Include(b => b.LionType)
                .FirstOrDefaultAsync(b => b.LionProfileId == id);
 
-        public async Task<(List<LionProfile> items, int totalPages)> SearchAsyncWithPagination(double? weight, string lionTypeName, int page = 1, int pageSize = 10)
+        public async Task<(List<LionProfile> items, int totalPages)> SearchAsyncWithPagination(double? weight, string lionTypeName, string lionName, int page = 1, int pageSize = 10)
         {
             var query = _context.LionProfiles.AsQueryable();
 
@@ -33,6 +33,11 @@ namespace LionPetManagement_ToanHH_Repository.Repositories
             if (!string.IsNullOrEmpty(lionTypeName))
             {
                 query = query.Where(b => b.LionType.LionTypeName.ToLower().Contains(lionTypeName.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(lionName))
+            {
+                query = query.Where(b => b.LionName.ToLower().Contains(lionName.ToLower()));
             }
 
             var totalPages = (int)Math.Ceiling((double)query.Count() / pageSize);

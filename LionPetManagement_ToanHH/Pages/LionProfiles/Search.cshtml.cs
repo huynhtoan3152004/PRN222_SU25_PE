@@ -31,6 +31,9 @@ namespace LionPetManagement_ToanHH.Pages.LionProfiles
         public string? LionTypeName { get; set; }
 
         [BindProperty(SupportsGet = true)]
+        public string? LionName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
         [BindProperty(SupportsGet = true)]
@@ -40,7 +43,7 @@ namespace LionPetManagement_ToanHH.Pages.LionProfiles
         public async Task OnGetAsync()
         {
             // Get all profiles first
-            var searchItem = await _service.SearchAsyncWithPagination(Weight, LionTypeName, PageNumber, PageSize);
+            var searchItem = await _service.SearchAsyncWithPagination(Weight, LionTypeName, LionName, PageNumber, PageSize);
             LionProfile = searchItem.items;
             if (searchItem.totalPages > 0)
             {
