@@ -216,7 +216,7 @@
                         {
                             @foreach (var item in Model.LionProfile)
                             {
-                                <tr>
+                                <tr data-id="@item.LionProfileId">
                                     <td><strong>@item.LionName</strong></td>
                                     <td>@item.Weight kg</td>
                                     <td>@(item.Characteristics?.Length > 50 ? item.Characteristics.Substring(0, 50) + "..." : item.Characteristics)</td>
@@ -353,11 +353,47 @@
     </div>
 </div>
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/lib/signalr/signalr.js"></script>
 <script>
     // Auto close alerts after 5 seconds
     setTimeout(function() {
         $('.alert').fadeOut('slow');
     }, 5000);
+
+    // SignalR connection for real-time updates
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/LionProfileHubs")
+        .build();
+
+    connection.on("ReceiveDelete", function (deletedId) {
+        // Remove the deleted row from the table
+        const row = document.querySelector(`tr[data-id="${deletedId}"]`);
+        if (row) {
+            row.remove();
+            // Show notification
+            showNotification(`Lion profile with ID ${deletedId} has been deleted by another user.`, 'warning');
+        }
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    function showNotification(message, type = 'info') {
+        const alertClass = type === 'warning' ? 'alert-warning' : 'alert-info';
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                <strong>${type === 'warning' ? '⚠️' : 'ℹ️'}</strong> ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+        $('.container').prepend(alertHtml);
+        // Auto close after 5 seconds
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    }
 </script>
 

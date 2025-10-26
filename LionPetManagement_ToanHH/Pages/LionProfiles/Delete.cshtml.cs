@@ -9,6 +9,8 @@ using LionPetManagement_ToanHH_Repository;
 using LionPetManagement_ToanHH_Repository.Models;
 using LionPetManagement_ToanHH_Service;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using LionPetManagement_ToanHH.Hubs;
 
 namespace LionPetManagement_ToanHH.Pages.LionProfiles
 {
@@ -16,9 +18,11 @@ namespace LionPetManagement_ToanHH.Pages.LionProfiles
     public class DeleteModel : PageModel
     {
         private readonly ILionProfileService _pService;
-        public DeleteModel(ILionProfileService profileService)
+        private readonly IHubContext<LionProfileHubs> _hubContext;
+        public DeleteModel(ILionProfileService profileService, IHubContext<LionProfileHubs> hubContext)
         {
             _pService = profileService;
+            _hubContext = hubContext;
         }
 
         [BindProperty]
@@ -45,6 +49,31 @@ namespace LionPetManagement_ToanHH.Pages.LionProfiles
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lionprofile = await _pService.GetByIdAsync(id.Value);
+            if (lionprofile != null)
+            {
+                var result = await _pService.RemoveAsync(lionprofile);
+                if (result)
+                {
+                    // Notify all clients about the deletion
+                    await _hubContext.Clients.All.SendAsync("ReceiveDelete", id.Value.ToString());
+                }
+                else
+                {
+                    return Page();
+                }
+            }
+
+            return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnPostDeleteRegularAsync(int? id)
         {
             if (id == null)
             {
