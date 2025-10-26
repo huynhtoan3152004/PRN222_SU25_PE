@@ -134,8 +134,8 @@
                                 <td class="small-muted">@Html.DisplayFor(modelItem => item.LionType.LionTypeId)</td>
                                 <td>@Html.DisplayFor(modelItem => item.LionType.LionTypeName)</td>
                                 <td>
-                                    <a asp-page="./Edit" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn">✏️ Edit</a>
-                                    <a asp-page="./Details" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn-outline ml-1">👁️ Details</a>
+                                    <a asp-page="./Update" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn">✏️ Edit</a>
+                                    <a asp-page="./Detail" asp-route-id="@item.LionProfileId" class="btn btn-sm lp-btn-outline ml-1">👁️ Details</a>
                                     <a asp-page="./Delete" asp-route-id="@item.LionProfileId" class="btn btn-sm btn-danger ml-1">🗑️ Delete</a>
                                 </td>
                             </tr>
