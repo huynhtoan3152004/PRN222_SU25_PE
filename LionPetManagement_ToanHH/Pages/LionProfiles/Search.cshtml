@@ -1,0 +1,107 @@
+﻿@page "/LionProfile/Search"
+@model LionPetManagement_ToanHH.Pages.LionProfiles.SearchModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+@* Search Bar *@
+<form method="get" asp-page="/LionProfiles/Search" class="form-inline mb-3">
+    <div class="form-group mr-2">
+        <input name="Weight" type="number" class="form-control" placeholder="Weight" value="@Model.Weight" />
+    </div>
+    <div class="form-group mr-2">
+        <input name="LionTypeName" type="text" class="form-control" placeholder="Lion Type Name"
+               value="@Model.LionTypeName" />
+    </div>
+    <div class="form-group mr-2">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link"
+                   asp-page="/LionProfiles/Search"
+                   asp-route-PageNumber="@i"
+                   asp-route-PageSize="@Model.PageSize"
+                   asp-route-Weight="@(Model.Weight)"
+                   asp-route-LionTypeName="@(Model.LionTypeName)">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<a asp-page="./Create" class="btn btn-primary">Create</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].LionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].Characteristics)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].Warning)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].LionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LionProfile[0].LionType.LionTypeName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LionProfile)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Characteristics)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warning)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LionType.LionTypeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LionType.LionTypeName)
+                </td>
+                <td>
+                    <a asp-page="./Update" asp-route-id="@item.LionProfileId">Edit</a> |
+                    <a asp-page="./Detail" asp-route-id="@item.LionProfileId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.LionProfileId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
